@@ -1,0 +1,11 @@
+include(default)
+[settings]
+build_type=Release
+arch=armv8
+compiler=clang
+compiler.libcxx=libc++
+compiler.version=9
+os=Android
+os.api_level=21
+[tool_requires]
+android-ndk/r21e

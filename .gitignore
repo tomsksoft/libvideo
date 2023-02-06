@@ -1,0 +1,10 @@
+#Visual Studio Code
+.vscode
+assets
+
+#Clion
+.idea
+
+#Custom TS
+build_
+cmake-build-*

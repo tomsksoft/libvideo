@@ -1,0 +1,95 @@
+plugins {
+    id 'com.android.library'
+}
+
+def buildType = "release"
+
+android {
+    compileSdk 32
+    defaultConfig {
+        minSdk 21
+        targetSdk 21
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
+            debugSymbolLevel 'SYMBOL_TABLE'
+        }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                arguments "-DANDROID_STL=c++_static"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildType = "debug"
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "../CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '33.0.0'
+}
+
+task conanInstall {
+    android.defaultConfig.ndk.abiFilters.each {
+        def arch = it;
+        def buildDir = new File("libvideo/conan_build_" + arch)
+        buildDir.mkdirs()
+
+        def sout = new StringBuilder(), serr = new StringBuilder()
+
+        if (buildType == "release") {
+            def cmd_release = "conan install ../.. -pr:h ../.ci/Release/host_android_" + arch + "_release" + " -pr:b=" + "../.ci/build_release " + "--build missing"
+            print(">> ${cmd_release} \n")
+
+            def proc_release = cmd_release.execute(null, buildDir)
+            proc_release.consumeProcessOutput(sout, serr)
+            proc_release.waitFor()
+            println "$sout $serr"
+            if (proc_release.exitValue() != 0) {
+                throw new Exception("out> $sout err> $serr" + "\nCommand: ${cmd_release}")
+            }
+        } else if (buildType == "debug") {
+            def cmd_debug = "conan install ../.. -pr:h ../.ci/Debug/host_android_" + arch + "_debug" + " -pr:b=" + "../.ci/build_debug " + "--build missing"
+            print(">> ${cmd_debug} \n")
+
+            def proc_debug = cmd_debug.execute(null, buildDir)
+            proc_debug.consumeProcessOutput(sout, serr)
+            proc_debug.waitFor()
+            println "$sout $serr"
+            if (proc_debug.exitValue() != 0) {
+                throw new Exception("out> $sout err> $serr" + "\nCommand: ${cmd_debug}")
+            }
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.guava:guava:31.1-jre'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

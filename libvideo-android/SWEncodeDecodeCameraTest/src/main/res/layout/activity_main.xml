@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LibvideoSoftwareTest">
+
+    <ImageView
+        android:id="@+id/preview"
+        android:layout_width="280dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="0dp"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/preview2"
+        android:layout_width="280dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="300dp"
+        android:scaleType="centerCrop" />
+
+</FrameLayout>

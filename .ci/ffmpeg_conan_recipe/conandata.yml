@@ -1,0 +1,4 @@
+sources:
+  '5.0':
+    sha256: c0130b8db2c763430fd1c6905288d61bc44ee0548ad5fcd2dfd650b88432bed9
+    url: https://ffmpeg.org/releases/ffmpeg-5.0.tar.bz2
