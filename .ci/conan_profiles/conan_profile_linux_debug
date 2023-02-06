@@ -11,3 +11,4 @@ build_type=Debug
 [conf]
 [build_requires]
 [env]
+ANDROID_NDK=""

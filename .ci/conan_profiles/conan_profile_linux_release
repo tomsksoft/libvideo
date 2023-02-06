@@ -11,3 +11,4 @@ build_type=Release
 [conf]
 [build_requires]
 [env]
+ANDROID_NDK=""

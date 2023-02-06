@@ -2,7 +2,7 @@ name: Build_Windows_Android_Libvideo
 
 on:
   pull_request:
-      branches: [master]
+      branches: [main]
       
 jobs:
   build-windows:
@@ -23,7 +23,7 @@ jobs:
         run: conan build . --build-folder build_
 
       - name: Test
-        run: ./build_/bin/libvideo_qa.exe
+        run: ./build_/bin/libvideo_test_qa.exe
 
   
   build-android:
