@@ -1,13 +1,49 @@
-name: Release
+name: main
 
 on:
   pull_request:
       branches: [main]
       types: [closed]
       
-jobs:     
+jobs:
+  build-windows:
+    runs-on: windows-2019
+    
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v1
+
+      - name: Install Conan
+        id: conan
+        uses: turtlebrowser/get-conan@main
+
+      - name: Prebuild thirdparty
+        run: py .ci/prebuild_thirdparty.py --build-release
+
+      - name: Build
+        run: conan build . --build-folder build_
+
+      - name: Test
+        run: ./build_/bin/libvideo_test_qa.exe
+
+  
+  build-android:
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v1
+
+      - name: Install Conan
+        id: conan
+        uses: turtlebrowser/get-conan@main
+
+      - name: Build Android version for arm64-v8a, armeabi-v7a, x86_64, x86
+        run: python3 .ci/prebuild_thirdparty.py --build-release --android
+
   release:
     runs-on: windows-2019
+    needs: [build-windows, build-android]
     
     steps:
     - name: Bump version and push tag
