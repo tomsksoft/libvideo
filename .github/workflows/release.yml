@@ -2,7 +2,7 @@ name: Release
 
 on:
   pull_request:
-      branches: [master]
+      branches: [main]
       types: [closed]
       
 jobs:     
@@ -15,7 +15,7 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.1
       with: 
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        release_branches: .*
+        release_branches: main
       
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1

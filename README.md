@@ -1,3 +1,7 @@
+# Status of last deployment
+![Build libvideo](https://github.com/tomsksoft/libvideo/actions/workflows/pull_request.yml/badge.svg) <br>
+![Release libvideo](https://github.com/tomsksoft/libvideo/actions/workflows/release.yml/badge.svg)
+
 # libvideo
 libvideo
 
